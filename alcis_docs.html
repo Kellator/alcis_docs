@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Nunito+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="main.css">
+	<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+	<script src="main.js"></script>
+	<title>ALCIS API Documentation</title>
+</head>
+<body>
+<h1>ALCIS API Documenation</h1>
+<div class="attribute_list_item">
+	<div class="attribute_list_item">
+		<h1>API Reference</h1>
+		<p>The ALCIS API is organized around REST and uses Node.js and Express.js to create a backend to serve static files.   HTTP response codes are used to indicate any errors. Request are returned as JSON.</p>
+		<div>
+			<h2>API Endpoint</h2>
+			<h3>https://secret-castle-60887.herokuapp.com</h3>
+		</div>
+	</div>
+	<div class="attribute_list_item">
+		<h1>Errors</h1>
+		<p>Errors are hadnled using conventional HTTP response codes which indicate success or failure.  In general, response codes in the 200s indicate success, response codes in the 400s indicate an error due to information provided, and response codes in the 500s represent a server error.</p>
+	</div>
+	<div>
+		<h1>Clients</h1>
+		<p>To add a client to the database, you create a client object.  You can retrieve, edit, and delete individual clients as well as list existing clients according to search queries.  Clients are identified by unique IDs generated upon creation of the client object.  In the following documenation, contact refers to the individual who first made contact with the assisted living community.  Prospect means the prospective assisted living resident.  These may be the same person.</p>
+		<p>ALCIS documentation is separated into major attributes.  If you wish to view one of the child attributes for a specific attribute, click on the "Show Child Attributes" block.</p>
+		<div>
+			<h1>The client object</h1>
+		</div>
+		<div>
+			<h5>Attributes</h5>
+			<ul>
+				<li class="attribute_list_item"><h3>_id :  string, uniquely generated id</h3></li>
+				<li class="attribute_list_item"><h3>contact : object</h3>
+				<p>Contains details about initial contact individual including name, phone number, address, and relationship to prospect.</p>
+					<div>
+						<h5 class="attribute_list_group "> child attributes</h5>
+						<ul class="attribute_list hidden">
+							<li><h3>contactAddress : object</h3>
+							<p>Contains individual details about contact address including street, city, state, and zipcode.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>contactCity : string</h3>
+										<p>City of contact's mailing address (e.g. Brockton).</p>
+										</li>
+										<li class="attribute_list_item"><h3>contactState : string</h3>
+										<p>State of contact's mailing address - will take 2 letter designation or full text (e.g. MA or Massachusetts).</p>
+										</li>
+										<li class="attribute_list_item"><h3>contactStreet : string</h3>
+										<p>Sreet and number for contact's mailing address (e.g. 25 E. Nilsson).</p>
+										</li>
+										<li class="attribute_list_item"><h3>contactZip : string</h3>
+										<p>5 digit us postal code (e.g. 02301).</p>
+										</li> 
+									</ul>
+								</div></li>
+							<li class="attribute_list_item"><h3>contactEmail : string</h3>
+							<p>Contact individual's email address.  Must be in text@text.end format.</p>
+							</li>
+							<li><h3>contactName : object</h3>
+							<p>First and last name of contact individual.  Separation allows for partial name search.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>contactFirstName : string</h3></li>
+										<li class="attribute_list_item"><h3>contactLastName : string</h3></li>
+									</ul>
+								</div></li>
+							<li class="attribute_list_item"><h3>contactPrimaryPhone : string</h3>
+							<p>Contact's primary phone number.Format allows for separators (e.g. 508-588-5334)</p>
+							</li>
+							<li class="attribute_list_item"><h3>contactSecondaryPhone : string</h3>
+							<p>Contact's secondary phone number.  Not required. Format allows or separators (e.g. 508-588-5334)</p>
+							</li> 
+							<li class="attribute_list_item"><h3>dateOfFirstContact : date<h3></li>
+							<li class="attribute_list_item"><h3>referralSource : string</h3>
+							<p>Includes most frequent types of referrals including word of mouth, health provider, and referral service A Place For Mom (APFM).</p>
+							</li>
+							<li class="attribute_list_item"><h3>relToProspect : string</h3>
+							<p>Relationship of contact to prospect for example a spouse, adult child, or health care provider.  May also be self if the prospect is the person making contact with community.</p>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="attribute_list_item"><h3>financials : object</h3> <p>Contains breakdown of income and assets sources.</p>
+					<div>
+					<h5 class="attribute_list_group "> child attributes</h5>
+					<ul class="attribute_list hidden">
+						<li><h3>assets : object</h3>
+						<p>Contains breakdown of asset sources including bank accounts, life insurance, and property values.  Includes section for other non-specific assets.</p>
+							<div>
+								<h5 class="attribute_list_group "> child attributes</h5>
+								<ul class="attribute_list hidden">
+									<li class="attribute_list_item"><h3>bankAccounts :  number</h3> 
+									<p>A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>lifeInsurance :  number</h3> 
+									<p>A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>otherAssets : number</h3> 
+									<p>A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>otherAssetsSource: string</h3>  
+									<p>A description of source of other assets (e.g. rental property, annuity plan, hedge fund).</p>
+									</li>
+									<li class="attribute_list_item"><h3>propertyValue : number</h3> 
+									<p>A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li><h3>bankReference : object</h3>
+						<p>Contains prospect's bank name and a contact number for the bank.  Not required</p>
+							<div>
+								<h5 class="attribute_list_group "> child attributes</h5>
+								<ul class="attribute_list hidden">
+									<li class="attribute_list_item"><h3>bankRefName : string</h3>
+									<p>Name of bank used by prospect</p>
+									</li>
+									<li class="attribute_list_item"><h3>bankRefNumber : string</h3>
+									<p>Ten digit phone number of bank.  Allows for use of separators (e.g. 800-888-8888).</p>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li><h3>income : object</h3>
+						<p>Contains breakdown of prospect's sources of income including social security, pension, and SSI.  Also includes a text input for non-sepcific source of income like rental income.  Also contains the summed value of all income souces.  While inputs allow for increments of 0.01, exact amounts are not necessary and may be estimated for the purposes of ALCIS.</p>
+							<div>
+								<h5 class="attribute_list_group "> child attributes</h5>
+								<ul class="attribute_list hidden">
+									<li class="attribute_list_item"><h3>monthly_income : number</h3>
+									<p>Summed value of all other incomes.  No input needed as this will calculate on it's own from other entered values.</p>
+									</li>
+									<li class="attribute_list_item"><h3>otherIncome : number</h3>
+									<p>A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>otherIncomeSource : string</h3>
+									<p>A description of source of other income (e.g. rental income).</p>
+									</li>
+									<li class="attribute_list_item"><h3>pension : number</h3>
+									<p>Total monthly pension award.  If prospect has multiple pensions, add together and input.  A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>socSecMonthly : number</h3>
+									<p>Awarded monthly social security amount. A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>ssi : number</h3>
+									<p>SSI is Supplemental Security Income. A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+									<li class="attribute_list_item"><h3>vaBenefits : number</h3>
+									<p>VA Benefits number should include pension and Aid and Attendance amounts if known.  A positive float number with minimum value of 0.00 and no maximum.  Allows step increment of 0.01.</p>
+									</li>
+								</ul>
+							</div>
+							<li><h3>landlordReference : object</h3>
+							<p>Contains name and contact number of prospect's previous landlord if applicable.  Not required.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>landlordRefName : string</h3>
+										<p>Name of landlord, if applicable.</p>
+										</li>
+										<li class="attribute_list_item"><h3>landlordRefNum : string</h3>
+										<p>Ten digit phone number. Input allows for separators (e.g. 508-588-5334).</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</li>
+					</ul>
+				</li>
+				<li class="attribute_list_item"><h3>housingAssistance : object</h3>
+				<p>Contains detailed information about housing preferences and services needed.</p>
+					<div>
+						<h5 class="attribute_list_group "> child attributes</h5>
+						<ul class="attribute_list hidden">
+							<li class="attribute_list_item"><h3>additionalServices : array</h3>
+							<p>Generated from checkboxes.  Shows if prospect will require additional services like housekeeping, meals, or laundry.</p>
+							</li>
+							<li><h3>assistanceNeeded : object</h3>
+							<p>Contains more detailed information regarding types of services needed including ADL or activities of daily living assistance.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>ambulation : string</h3>
+										<p>Text input of type of ambulation (e.g. rolling walker, uses cane, wheelchair).</p>
+										</li>
+										<li class="attribute_list_item"><h3>assistance_needed : array</h3>
+										<p>Generated from checkbox inputs.  Highlights assistance needed with ADLs. activities of daily living such as bathing, dressing, grooming.</p>
+										</li>
+										<li class="attribute_list_item"><h3>bathing : string</h3>
+										<p>Text detail of specific bathing needs, if any.</p>
+										</li>
+										<li class="attribute_list_item"><h3>dressing : string</h3>
+										<p>Text detail of specific dressing needs, if any.</p>
+										</li>
+										<li class="attribute_list_item"><h3>grooming: string</h3>
+										<p>Text detail of specific grooming needs, including oral care and shaving, if any.</p>
+										</li>
+										<li class="attribute_list_item"><h3>medAssist : string</h3>
+										<p>Text detail of medication administration needs including SAMM or Self-administered medication management, LMA or Limited Medication Administration.</p>
+										</li>
+									</ul>
+								</div>
+							<li class="attribute_list_item"><h3>estimatedMoveDate : string</h3>
+							<p>Text input for estimated move in date.  If exact date is not available, this allows user to input a month or season rather than date.</p>
+							</li>
+							<li class="attribute_list_item"><h3>housingType : string</h3>
+							<p>Generated by checking radio input.  Details type of housing needed; independent, assisted living, memory care, or GAFC program.</p>
+							</li>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="attribute_list_item"><h3>medical : object</h3>
+				<p>Details medical information about prospect including physician information, allergies, medications, and plan of care.</p>
+					<div>
+						<h5 class="attribute_list_group "> child attributes</h5>
+						<ul class="attribute_list hidden">
+							<li class="attribute_list_item"><h3>alfPlanType : string</h3>
+							<p>Generated by checking radio input.  Details plan type for prospect.  Independent = no care.  Traditional = 1 ADL.  Enhanced = 2 ADLs.  Comprehensive = 3 ADLs.</p>
+							</li>
+							<li class="attribute_list_item"><h3>otherPlans : string</h3>
+							<p>Generated by checking radio input.  Not required.  Shows if additional plan type needed such as Memory Care or GAFC (massHealth Group Adult Foster Care) program.</p>
+							</li>
+							<li class="attribute_list_item"><h3>allergies : string</h3>
+							<p>Text input for any known allergies.  NKDA stands for No Known Drug Allergies.</p>
+							</li>
+							<li class="attribute_list_item"><h3>diet : array</h3>
+							<p>Generated by checkbox inputs.  Details any physician ordered diet including No Added Salt, House Concentrated Carbohydrate, as well as textures.</p>
+							</li>
+							<li class="attribute_list_item"><h3>healthIssues : string</h3>
+							<p>Details known existing health issues upon contact and/or assessment of prospect.  This should include known medical conditions such as CHF or COPD as well as past surgeries or health crisis like hip fixation or stroke.</p>
+							</li>
+							<li><h3>initialAssessment : object</h3>
+							<p>Contains details regarding assessment dates and assessor.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>assessSchedDate: string</h3>
+										<p>Date initial assessment is scheduled to occur.</p>
+										</li>
+										<li class="attribute_list_item"><h3>assessComp : string</h3>
+										<p>Generated by radio input.  Shows whether initial assessment has been completed or not.</p>
+										</li>
+										<li class="attribute_list_item"><h3>assessBy : string</h3>
+										<p>Text input for name of initial assessor.</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>medsOnAdmit : string</h3>
+							<p>Text entry list of medications being taken by prospect at the time of initial assessment.  Medication are subject to change.</p>
+							</li>
+							<li><h3>pcp : object</h3>
+							<p>Detailed information regarding prospects primary care physician including name, phone and fax numbers, and address.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li><h3>pcpAddress : object</h3>
+										<p>Individual components of primary care physician's address including street, city, state, and zipcode.</p>
+											<div>
+												<h5 class="attribute_list_group "> child attributes</h5>
+												<ul class="attribute_list hidden">
+													<li class="attribute_list_item"><h3>pcpCity : string</h3>
+													<p>City where PCP is located.</p>
+													</li>
+													<li class="attribute_list_item"><h3>pcpState : string</h3>
+													<p>State where PCP is located.  This may be the two letter designation or full name (e.g. MA or Massachusetts).</p>
+													</li>
+													<li class="attribute_list_item"><h3>pcpStreet</h3>
+													<p>Street number and name where pcp is located.  Address should include suite number if applicable.</p>
+													</li>
+													<li class="attribute_list_item"><h3>pcpZip</h3>
+													<p>5 digit US postal zip code.</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="attribute_list_item"><h3>pcpFax : string</h3>
+										<p>10 digit fax number for primary care physician's office.  Input allows for separation of number (e.g. 508-588-8775).</p>
+										</li>
+										<li class="attribute_list_item"><h3>pcpName : string</h3>
+										<p>Unlike other name inputs, this name input is not split and may contain first and last name if known or last name or Dr. LastName.</p>
+										</li>
+										<li class="attribute_list_item"><h3>pcpNum : string</h3>
+										<p>10 digit number for Primary Care Physician's main office. Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>pharmacy : string</h3>
+							<p>Generated by radio input.  Details pharmacy prospect will be using.  Includes 2 main pharmacies, mail order, and VA pharmacies.</p>
+							</li>
+							<li class="attribute_list_item"><h3>physFormRec : string</h3>
+							<p>Text input for date Physician Form is received by ALF.</p>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="attribute_list_item"><h3>prospect : object</h3>
+				<p>Contains detailed information about the prospect (prospective resident) including major demographic information, health insurance information, and current housing information.</p>
+					<div>
+						<h5 class="attribute_list_group "> child attributes</h5>
+						<ul class="attribute_list hidden">
+							<li><h3>altEmergContact : object</h3>
+							<p>Contains detailed information about prospect's alternate emergency contact including name and phone numbers.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>altContactAltPhone : string</h3>
+										<p>10 digit phone number for alternate's second phone number if available.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+										<li><h3>altContactName : object</h3>
+										<p>First and last name of alternate contact.</p>
+											<div>
+												<h5 class="attribute_list_group "> child attributes</h5>
+												<ul class="attribute_list hidden">
+													<li class="attribute_list_item"><h3>altContactFirstName: string</h3>
+													<p>Alternate contact's first name.</p>
+													</li>
+													<li class="attribute_list_item"><h3>altContactLastName: string</h3>
+													<p>Alternate contact's last name.</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="attribute_list_item"><h3>altContactPhone : string</h3>
+										<p>10 digit number for alternate contact's primary phone number.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>currentHousing : string</h3>
+							<p>Generated using radio input.  Details where prospect is currently living - with spouse, family, in skiled facility etc.</p>
+							</li>
+							<li class="attribute_list_item"><h3>dateAddedToDB : date</h3>
+							<p>Date client document created in database.</p>
+							</li>
+							<li class="attribute_list_item"><h3>dateOfBirth : string</h3>
+							<p>Text input for prospect's date of birth.</p>
+							</li>
+							<li ><h3>eContact : object</h3>
+							<p>Contains detailed information about prospect's primary emergency contact person including name and phone numbers.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>eContactAltPhone : string</h3>
+										<p>10 digit phone number for primary emergency contact's second phone number if available.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+										<li><h3>eContactName : object</h3>
+										<p>First and last name of primary emergency contact.</p>
+											<div>
+												<h5 class="attribute_list_group "> child attributes</h5>
+												<ul class="attribute_list hidden">
+													<li class="attribute_list_item"><h3>eContactFirstName: string</h3>
+													<p>Primary emergency contact's first name.</p>
+													</li>
+													<li class="attribute_list_item"><h3>eContactLastName: string</h3>
+													<p>Primary emergency contact's last name.</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="attribute_list_item"><h3>eContactPhone : string</h3>
+										<p>10 digit number for primary emergency contact's primary phone number.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>followUpDate : date</h3>
+							<p>Automatically generated date to ensure follow up with prospects not interested in immediate move in.  Date added to database plus 3 months.</p>
+							</li>
+							<li class="attribute_list_item"><h3>gender : string</h3>
+							<p>Generated by radio input.  Gender of prospect.</p>
+							</li>
+							<li><h3>hcp : object</h3>
+							<p>Contains detailed information regarding prospect's Health Care Proxy, if applicable, including name and contact numbers.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li><h3>hcpName : object</h3>
+										<p>First and last name of health care proxy.</p>
+											<div>
+												<h5 class="attribute_list_group"> child attributes</h5>
+												<ul class="attribute_list hidden">
+													<li class="attribute_list_item"><h3>hcpFirstName : string</h3>
+													<p>Health care proxy's first name.</p>
+													</li>
+													<li class="attribute_list_item"><h3>hcpLastName : string</h3>
+													<p>Health care proxy's last name.</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="attribute_list_item"><h3>hcpPhone : string</h3>
+										<p>10 digit phone number for health care proxy's primary phone number.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+										<li class="attribute_list_item"><h3>hcpSecPhone : string</h3>
+										<p>10 digit phone number for health care proxy's secondary phone number, if available.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+									</ul>	
+								</div>
+							</li>
+							<li><h3>insuranceNums : object</h3>
+							<p>Contains specific insurance plan numbers including Medicare, MassHealth, and other provider if applicable.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>insuranceNum : string</h3>
+										<p>Text input for other health insurance plan number. May be any private insurance including PPO, SCO or Senior Care Option, or Indemnity plan.</p>
+										</li>
+										<li class="attribute_list_item"><h3>massHealth : string</h3>
+										<p>Text input for MassHealth id Number.  SCO provider numbers should not be entered here but in the other insurance input.</p>
+										</li>
+										<li class="attribute_list_item"><h3>medicareNum : string</h3>
+										<p>Text input for Medicare number.  Should include letter following 9 digit number.</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>leadStatus : string</h3>
+							<p>Generated using radio input.  Shows current lead status of prospect.  Hot: move in 1-3 months.  Warm: move in 3-6 months.  Cool: move in after 6 months.</p>
+							</li>
+							<li class="attribute_list_item"><h3>levelOfEducation : string</h3>
+							<p>Generated using radio input.  Not required.  Reflects highest known level of education for prospect.</p>
+							</li>
+							<li class="attribute_list_item"><h3>maritalStatus: string</h3>
+							<p>Generated using radio inputs.  Reflects marital status of prospect.</p>
+							</li>
+							<li><h3>poa : object</h3>
+							<p>Contains detailed information regarding prospect's designated Power of Attorney, if applicable, including name and contact numbers.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li><h3>poaName : object</h3>
+										<p>First and last name of designated power of attorney.</p>
+											<div>
+												<h5 class="attribute_list_group"> child attributes</h5>
+												<ul class="attribute_list hidden">
+													<li class="attribute_list_item"><h3>poaFirstName : string</h3>
+													<p>Designated power of attorney's first name.</p>
+													</li>
+													<li class="attribute_list_item"><h3>poaLastName : string</h3>
+													<p>Designated power of attorney's last name.</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="attribute_list_item"><h3>poaPhone : string</h3>
+										<p>10 digit phone number for designated power of attorney's primary phone number.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+										<li class="attribute_list_item"><h3>poaSecPhone : string</h3>
+										<p>10 digit phone number for designated power of attorney's secondary phone number, if available.  Input allows for separation of number (e.g. 508-588-5334).</p>
+										</li>
+									</ul>	
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>prospectAddress : object</h3>
+							<p>Contains details regarding prospect's current address including street, city, state, and zipcode.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>prospectCity : string</h3>
+										<p>City for prospect's address (e.g. Brockton).</p>
+										</li>
+										<li class="attribute_list_item"><h3>prospectState : string</h3>
+										<p>State for prospect's address.  May be two letter designation or entire name (e.g. MA or Massachusetts).</p>
+										</li>
+										<li class="attribute_list_item"><h3>prospectStreet : string</h3>
+										<p>Street address for prospect.  Should include number, street, and any apartment number if applicable.</p>
+										</li>
+										<li class="attribute_list_item"><h3>prospectZip : string</h3>
+										<p>5 digit US postal code (e.g. 02301).</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>prospectName : string</h3>
+							<p>Contains first and last name of prospect.  Name separation allows for partial name searches.</p>
+								<div>
+									<h5 class="attribute_list_group "> child attributes</h5>
+									<ul class="attribute_list hidden">
+										<li class="attribute_list_item"><h3>prospectFirstName : string</h3>
+										<p>Prospect's first name.</p>
+										</li>
+										<li class="attribute_list_item"><h3>prospectLastName : string</h3>
+										<p>Prospect's last name.</p>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="attribute_list_item"><h3>prospectPhone : string</h3>
+							<p>10 digit phone number for prospect if provided by client.  Input allows for number separation (e.g. 508-588-5334).</p>
+							</li>
+							<li class="attribute_list_item"><h3>religion : string</h3>
+							<p>Input not required.  Declared religion of prospect.  May add name of congregation or church if provided and applicable.</p>
+							</li>
+							<li class="attribute_list_item"><h3>serviceBranch : string</h3>
+							<p>Input not required.  Declared branch of military for service members.  This may include active combat duty branches like Army, Marines, Coast Guard and other units such as the Waves or USO. </p>
+							</li>
+							<li class="attribute_list_item"><h3>socialSecurityNum : string</h3>
+							<p>Prospect's social security number.  Not required for admission.</p>
+							</li>
+							<li class="attribute_list_item"><h3>veteranStatus : string</h3>
+							<p>Generated by checkbox.  Reflects if prospect is a veteran of military service or not.  This may include active combat duty branches or other units.</p>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="attribute_list_item">
+			<h1>Create a client</h1>
+			<p>At a minimum, either the contact name or prospect name must be entered at the time of creation.  Otherwise, there is currently no way to search for the created client as a search by client_id is not available.</p>
+			<p>Client creation is modular making it simple to add new attributes for data collection and to accommodate for changing program needs.
+			<h2>Definition</h2>
+			<h3>createNewClient(client_id, callback)</h3>
+			<h2>Endpoint</h2>
+			<h3>/alcis/clients/</h3>
+		</div>
+		<div class="attribute_list_item">
+			<h1>Update a client</h1>
+			<p>This updates the specific selected client by pulling values from inputs on the client side.  If an input is not altered on the client side, it will remain the same.  All inputs may be updated at the same time by making all the changes at once and then clicking the update button.</p>
+			<p>The client update features are modular like the client creation to allow for changing program needs.</p>
+			<h2>Definition</h2>
+			<h3>updateClientInformation(client_id, callback)</h3>
+			<h2>Endpoint</h2>
+			<h3>/alcis/clients/ + client_id</h3>
+		</div>
+		<div class="attribute_list_item">
+			<h1>Delete a client</h1>
+			<p>This will permanently delete a client and cannot be undone.  Client information cannot be retrieved.</p>
+			<h2>Definition</h2>
+			<h3>deleteClientData(client_id, callback)</h3>
+			<h2>Endpoint</h2>
+			<h3>/alcis/clients/ + client_id</h3>
+		</div>
+		<div class="attribute_list_item">
+			<h1>Listing clients</h1>
+			<p>Clients may be listed in a number of ways.  Passing in empty string arguments will result in a full client list.  Passing in strings of full names, for example "Mary" "Worthington", will result in all clients who have a contact first and last name combination of "Mary Worthington" or a prospect first and last name combination of "Mary Worthington".  Passing in a first name string will return all clients who have a contact or prospect matching that first name.  Passing in a last name string will return all clients who have a contact or prospect matching that last name.  For example, passing in last name "Johnson" will return all clients with contact individuals and prospects with the last name of "Johnson".</p>
+			<h2>Definition</h2>
+			<h3>getClientList(searchName, callback)</h3>
+			<h2>Endpoint</h2>
+			<h3>/alcis/clients/</h3>
+		</div>
+		</div>
+		</div>
+	</div>
+	<footer>See it on github: <a href="https://github.com/Kellator/cms_capstone">
+	<img src="GitHub-Mark-32px.png" alt="github octocat mark"></a>
+</body>
+</html>
